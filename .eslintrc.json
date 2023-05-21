@@ -2,6 +2,7 @@
   "extends": "next/core-web-vitals",
   "rules": {
     "semi": ["error", "always"],
-    "no-extra-semi": "error"
+    "no-extra-semi": "error",
+    "react/no-children-prop": "off"
   }
 }
