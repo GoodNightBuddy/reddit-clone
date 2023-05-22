@@ -11,6 +11,7 @@ import { useRecoilState } from 'recoil';
 import React from 'react';
 import { authModalState } from '@/src/atoms/authModalAtom';
 import { AuthModalTitles, AuthModalTypes } from '@/src/types/enums';
+import AuthInputs from './AuthInputs';
 
 const viewDisplayNameMap: Record<AuthModalTypes, AuthModalTitles> = {
   [AuthModalTypes.Login]: AuthModalTitles.Login,
@@ -25,30 +26,32 @@ const AuthModal: React.FC = () => {
     setModalState(prev => ({ ...prev, open: false }));
   };
 
-  const currentViewDisplayName = viewDisplayNameMap[modalState.view];
+  const currentViewDisplayName = viewDisplayNameMap[modalState.type];
 
   return (
     <>
       <Modal isOpen={modalState.open} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{currentViewDisplayName}</ModalHeader>
+          <ModalHeader textAlign={'center'}>
+            {currentViewDisplayName}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody
             display={'flex'}
             flexDir={'column'}
             alignItems={'center'}
             justifyContent={'center'}
+            pb={6}
           >
             <Flex
               direction={'column'}
               align={'center'}
               justify={'center'}
               width={'70%'}
-              border={'1px solid red'}
             >
               {/* <OAuthButtons /> */}
-              {/* <OAuthInputss /> */}
+              <AuthInputs />
               {/* <ResetPassword /> */}
             </Flex>
           </ModalBody>

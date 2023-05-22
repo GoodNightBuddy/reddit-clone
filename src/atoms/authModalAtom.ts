@@ -3,12 +3,12 @@ import { AuthModalTypes } from '../types/enums';
 
 export interface AuthModalState {
   open: boolean;
-  view: AuthModalTypes;
+  type: AuthModalTypes;
 }
 
 const defaultModalState: AuthModalState = {
   open: false,
-  view: AuthModalTypes.Login,
+  type: AuthModalTypes.Login,
 };
 
 export const authModalState = atom<AuthModalState>({

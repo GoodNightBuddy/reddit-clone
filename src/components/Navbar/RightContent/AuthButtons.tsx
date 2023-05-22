@@ -14,7 +14,7 @@ const AuthButtons: React.FC = () => {
         display={{ base: 'none', sm: 'flex' }}
         width={{ base: '70px', md: '110px' }}
         onClick={() =>
-          setAuthModalState({ open: true, view: AuthModalTypes.Login })
+          setAuthModalState({ open: true, type: AuthModalTypes.Login })
         }
       >
         Log In
@@ -24,7 +24,7 @@ const AuthButtons: React.FC = () => {
         display={{ base: 'none', sm: 'flex' }}
         width={{ base: '70px', md: '110px' }}
         onClick={() =>
-          setAuthModalState({ open: true, view: AuthModalTypes.Signup })
+          setAuthModalState({ open: true, type: AuthModalTypes.Signup })
         }
       >
         Sign Up
