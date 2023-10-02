@@ -6,12 +6,14 @@ import {
   ModalCloseButton,
   ModalBody,
   Flex,
+  Text,
 } from '@chakra-ui/react';
 import { useRecoilState } from 'recoil';
 import React from 'react';
 import { authModalState } from '@/src/atoms/authModalAtom';
 import { AuthModalTitles, AuthModalTypes } from '@/src/types/enums';
 import AuthInputs from './AuthInputs';
+import OAuthButtons from './OAuthButtons';
 
 const viewDisplayNameMap: Record<AuthModalTypes, AuthModalTitles> = {
   [AuthModalTypes.Login]: AuthModalTitles.Login,
@@ -50,7 +52,8 @@ const AuthModal: React.FC = () => {
               justify={'center'}
               width={'70%'}
             >
-              {/* <OAuthButtons /> */}
+              <OAuthButtons />
+              <Text color={'gray.500'}>OR</Text>
               <AuthInputs />
               {/* <ResetPassword /> */}
             </Flex>
