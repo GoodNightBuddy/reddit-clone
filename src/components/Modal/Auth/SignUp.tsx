@@ -1,10 +1,11 @@
 import { authModalState } from '@/src/atoms/authModalAtom';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { auth } from '@/src/firebase/clientApp';
+import { FIREBASE_ERRORS } from '@/src/firebase/error';
 import { AuthModalTitles, AuthModalTypes } from '@/src/types/enums';
 import { Button, Flex, Input, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useSetRecoilState } from 'recoil';
-import { auth } from '@/src/firebase/clientApp';
 
 type SignUpProps = {};
 
@@ -31,7 +32,7 @@ const SignUp: React.FC<SignUpProps> = () => {
     setSignUpForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const [createUserWithEmailAndPassword, user, loading, authErr] =
+  const [createUserWithEmailAndPassword, user, loading, userError] =
     useCreateUserWithEmailAndPassword(auth);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -117,11 +118,10 @@ const SignUp: React.FC<SignUpProps> = () => {
         }}
         bg={'gray.50'}
       />
-      {error && (
-        <Text textAlign={'center'} color={'red'} fontSize={'10pt'}>
-          {error}
-        </Text>
-      )}
+      <Text textAlign={'center'} color={'red'} fontSize={'10pt'}>
+        {error ||
+          FIREBASE_ERRORS[userError?.message as keyof typeof FIREBASE_ERRORS]}
+      </Text>
       <Button
         type='submit'
         w={'100%'}
@@ -130,7 +130,7 @@ const SignUp: React.FC<SignUpProps> = () => {
         mb={2}
         isLoading={loading}
       >
-        {AuthModalTitles.Login}
+        {AuthModalTitles.Signup}
       </Button>
       <Flex fontSize={'9pt'} justifyContent={'center'}>
         <Text mr={1}>Already a redditor?</Text>
