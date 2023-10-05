@@ -1,17 +1,17 @@
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  Flex,
-  Text,
-} from '@chakra-ui/react';
-import { useRecoilState } from 'recoil';
-import React from 'react';
 import { authModalState } from '@/src/atoms/authModalAtom';
 import { AuthModalTitles, AuthModalTypes } from '@/src/types/enums';
+import {
+  Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+} from '@chakra-ui/react';
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import AuthInputs from './AuthInputs';
 import OAuthButtons from './OAuthButtons';
 
@@ -53,7 +53,9 @@ const AuthModal: React.FC = () => {
               width={'70%'}
             >
               <OAuthButtons />
-              <Text color={'gray.500'}>OR</Text>
+              <Text color={'gray.500'} mb={4}>
+                OR
+              </Text>
               <AuthInputs />
               {/* <ResetPassword /> */}
             </Flex>
