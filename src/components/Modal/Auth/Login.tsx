@@ -16,10 +16,10 @@ const Login: React.FC<LoginProps> = () => {
 
   const setAuthModalState = useSetRecoilState(authModalState);
 
-  const changeModalType = () => {
+  const changeModalType = (type: AuthModalTypes) => {
     setAuthModalState(prev => ({
       ...prev,
-      type: AuthModalTypes.Signup,
+      type,
     }));
   };
 
@@ -88,17 +88,34 @@ const Login: React.FC<LoginProps> = () => {
           {FIREBASE_ERRORS[error?.message as keyof typeof FIREBASE_ERRORS]}
         </Text>
       )}
-      <Button type='submit' w={'100%'} h={'36px'} mt={2} mb={2}>
+      <Button
+        type='submit'
+        w={'100%'}
+        h={'36px'}
+        mt={2}
+        mb={2}
+        isLoading={loading}
+      >
         {AuthModalTitles.Login}
       </Button>
-      <Flex fontSize={'9pt'} justifyContent={'center'}>
+      <Flex fontSize={'9pt'} justifyContent={'center'} mb={2}>
+        <Text mr={1}>Forgot your password?</Text>
+        <Text
+          color={'blue.500'}
+          cursor={'pointer'}
+          onClick={() => changeModalType(AuthModalTypes.ResetPassword)}
+        >
+          {AuthModalTitles.ResetPassword}
+        </Text>
+      </Flex>
+      <Flex fontSize={'9pt'} justifyContent={'center'} mb={2}>
         <Text mr={1}>New here?</Text>
         <Text
           color={'blue.500'}
           fontWeight={700}
           cursor={'pointer'}
           textTransform={'uppercase'}
-          onClick={changeModalType}
+          onClick={() => changeModalType(AuthModalTypes.Signup)}
         >
           {AuthModalTitles.Signup}
         </Text>

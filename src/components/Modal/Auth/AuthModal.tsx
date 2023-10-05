@@ -10,10 +10,12 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import AuthInputs from './AuthInputs';
 import OAuthButtons from './OAuthButtons';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/src/firebase/clientApp';
 
 const viewDisplayNameMap: Record<AuthModalTypes, AuthModalTitles> = {
   [AuthModalTypes.Login]: AuthModalTitles.Login,
@@ -23,10 +25,15 @@ const viewDisplayNameMap: Record<AuthModalTypes, AuthModalTitles> = {
 
 const AuthModal: React.FC = () => {
   const [modalState, setModalState] = useRecoilState(authModalState);
+  const [user, loading, error] = useAuthState(auth);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setModalState(prev => ({ ...prev, open: false }));
-  };
+  }, [setModalState]);
+
+  useEffect(() => {
+    if (user) handleClose();
+  }, [handleClose, user]);
 
   const currentViewDisplayName = viewDisplayNameMap[modalState.type];
 
