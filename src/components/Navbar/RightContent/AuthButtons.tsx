@@ -1,8 +1,8 @@
 import { authModalState } from '@/src/atoms/authModalAtom';
+import { AuthModalTitles, AuthModalTypes } from '@/src/types/enums';
 import { Button } from '@chakra-ui/react';
-import { useSetRecoilState } from 'recoil';
 import React from 'react';
-import { AuthModalTypes } from '@/src/types/enums';
+import { useSetRecoilState } from 'recoil';
 
 const AuthButtons: React.FC = () => {
   const setAuthModalState = useSetRecoilState(authModalState);
@@ -18,7 +18,7 @@ const AuthButtons: React.FC = () => {
           setAuthModalState({ open: true, type: AuthModalTypes.Login })
         }
       >
-        Log In
+        {AuthModalTitles.Login}
       </Button>
       <Button
         mr={2}
@@ -29,7 +29,7 @@ const AuthButtons: React.FC = () => {
           setAuthModalState({ open: true, type: AuthModalTypes.Signup })
         }
       >
-        Sign Up
+        {AuthModalTitles.Signup}
       </Button>
     </>
   );

@@ -1,4 +1,5 @@
 import { authModalState } from '@/src/atoms/authModalAtom';
+import { auth } from '@/src/firebase/clientApp';
 import { AuthModalTitles, AuthModalTypes } from '@/src/types/enums';
 import {
   Flex,
@@ -11,11 +12,11 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React, { useCallback, useEffect } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRecoilState } from 'recoil';
 import AuthInputs from './AuthInputs';
 import OAuthButtons from './OAuthButtons';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/src/firebase/clientApp';
+import ResetPassword from './ResetPassword';
 
 const viewDisplayNameMap: Record<AuthModalTypes, AuthModalTitles> = {
   [AuthModalTypes.Login]: AuthModalTitles.Login,
@@ -59,12 +60,18 @@ const AuthModal: React.FC = () => {
               justify={'center'}
               width={'70%'}
             >
-              <OAuthButtons />
-              <Text color={'gray.500'} mb={4}>
-                OR
-              </Text>
-              <AuthInputs />
-              {/* <ResetPassword /> */}
+              {modalState.type === AuthModalTypes.Login ||
+              modalState.type === AuthModalTypes.Signup ? (
+                <>
+                  <OAuthButtons />
+                  <Text color={'gray.500'} mb={4}>
+                    OR
+                  </Text>
+                  <AuthInputs />
+                </>
+              ) : (
+                <ResetPassword />
+              )}
             </Flex>
           </ModalBody>
         </ModalContent>
