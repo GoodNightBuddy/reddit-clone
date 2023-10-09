@@ -5,6 +5,7 @@ import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import { BsDot, BsReddit } from 'react-icons/bs';
 import { useSetRecoilState } from 'recoil';
 import { auth } from '../../../firebase/clientApp';
+import { AuthModalTitles } from '@/src/types/enums';
 
 // type ResetPasswordProps = {
 //   toggleView: (view: ModalView) => void;
@@ -71,7 +72,7 @@ const ResetPassword: React.FC = () => {
               type='submit'
               isLoading={sending}
             >
-              Reset Password
+              {AuthModalTitles.ResetPassword}
             </Button>
           </form>
         </>
