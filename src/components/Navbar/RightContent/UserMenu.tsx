@@ -23,7 +23,7 @@ import { MdOutlineLogin } from 'react-icons/md';
 import { VscAccount } from 'react-icons/vsc';
 import { useSetRecoilState } from 'recoil';
 
-type UserMenuProps = {
+export type UserMenuProps = {
   user?: User | null;
 };
 
