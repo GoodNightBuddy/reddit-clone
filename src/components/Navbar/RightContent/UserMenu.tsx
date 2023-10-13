@@ -3,6 +3,7 @@ import { auth } from '@/src/firebase/clientApp';
 import { AuthModalTypes } from '@/src/types/enums';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
+  Box,
   Flex,
   Icon,
   Menu,
@@ -17,6 +18,7 @@ import React from 'react';
 import { useSignOut } from 'react-firebase-hooks/auth';
 import { CgProfile } from 'react-icons/cg';
 import { FaRedditSquare } from 'react-icons/fa';
+import { IoSparkles } from 'react-icons/io5';
 import { MdOutlineLogin } from 'react-icons/md';
 import { VscAccount } from 'react-icons/vsc';
 import { useSetRecoilState } from 'recoil';
@@ -37,16 +39,38 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
         borderRadius={4}
         _hover={{ outline: '1px solid', outlineColor: 'gray.200' }}
       >
-        {user ? (
+        <Flex align={'center'}>
           <Flex align={'center'}>
-            <Flex align={'center'}>
-              <Icon fontSize={24} mr={1} color='gray.300' as={FaRedditSquare} />
-              <ChevronDownIcon />
-            </Flex>
+            {user ? (
+              <>
+                <Icon
+                  fontSize={24}
+                  mr={1}
+                  color='gray.300'
+                  as={FaRedditSquare}
+                />
+                <Box
+                  display={{ base: 'none', lg: 'flex' }}
+                  flexDirection='column'
+                  fontSize='8pt'
+                  alignItems='flex-start'
+                  mr={8}
+                >
+                  <Text fontWeight={700}>
+                    {user?.displayName || user?.email?.split('@')[0]}
+                  </Text>
+                  <Flex alignItems='center'>
+                    <Icon as={IoSparkles} color='brand.100' mr={1} />
+                    <Text color='gray.400'>1 karma</Text>
+                  </Flex>
+                </Box>
+              </>
+            ) : (
+              <Icon fontSize={24} mr={1} color='gray.300' as={VscAccount} />
+            )}
           </Flex>
-        ) : (
-          <Icon fontSize={24} mr={1} color='gray.300' as={VscAccount} />
-        )}
+          <ChevronDownIcon />
+        </Flex>
       </MenuButton>
       <MenuList>
         <MenuItem
