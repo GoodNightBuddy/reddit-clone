@@ -8,6 +8,7 @@ import { useSignOut } from 'react-firebase-hooks/auth';
 import { TiHome } from 'react-icons/ti';
 import { useSetRecoilState } from 'recoil';
 import { UserMenuProps } from '../RightContent/UserMenu';
+import Communities from './Communities';
 
 const Directory: React.FC<UserMenuProps> = ({ user }) => {
   const [signOut] = useSignOut(auth);
@@ -41,7 +42,9 @@ const Directory: React.FC<UserMenuProps> = ({ user }) => {
           <ChevronDownIcon />
         </Flex>
       </MenuButton>
-      <MenuList>{/* <Communities /> */}</MenuList>
+      <MenuList>
+        <Communities />
+      </MenuList>
     </Menu>
   );
 };
