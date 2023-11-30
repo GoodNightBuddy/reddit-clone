@@ -18,7 +18,13 @@ import {
   Flex,
   Icon,
 } from '@chakra-ui/react';
-import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  runTransaction,
+  serverTimestamp,
+  setDoc,
+} from 'firebase/firestore';
 import React, { ReactEventHandler, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { BsFillEyeFill, BsFillPersonFill } from 'react-icons/bs';
@@ -64,20 +70,34 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
     try {
       setLoading(true);
 
-      // Check if community exists in db
-      const communityDocRef = doc(firestore, 'communities', communityName);
-      const communityDoc = await getDoc(communityDocRef);
+      await runTransaction(firestore, async transaction => {
+        // Check if community exists in db
+        const communityDocRef = doc(firestore, 'communities', communityName);
+        const communityDoc = await transaction.get(communityDocRef);
 
-      if (communityDoc.exists()) {
-        throw new Error(`Sorry, r/${communityName} is taken. Try another.`);
-      }
+        if (communityDoc.exists()) {
+          throw new Error(`Sorry, r/${communityName} is taken. Try another.`);
+        }
 
-      // Update or create new doc
-      await setDoc(communityDocRef, {
-        creatorId: user?.uid,
-        createdAt: serverTimestamp(),
-        numberOfMembers: 1,
-        privacyType: communityType,
+        // Create community
+        transaction.set(communityDocRef, {
+          creatorId: user?.uid,
+          createdAt: serverTimestamp(),
+          numberOfMembers: 1,
+          privacyType: communityType,
+        });
+
+        // Create communitySnippet on user
+        const usercCommunitySnippetsRef = doc(
+          firestore,
+          `users/${user?.uid}/communitySnippets`,
+          communityName
+        );
+
+        transaction.set(usercCommunitySnippetsRef, {
+          communityId: communityName,
+          isModerator: true,
+        });
       });
     } catch (error: any) {
       console.log('handleCreateCommunity', error);
